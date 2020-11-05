@@ -16,11 +16,112 @@
 
 using namespace std;
 
+float totalDistance = 0;
+
+struct Edge
+{
+    int source;
+    int destination;
+    float weight;
+};
+
+struct Graph
+{
+    int V;
+    int E;
+    Edge *edge;
+};
+
+struct Graph *createGraph(int vertices, int edges)
+{
+    Graph *graph = new Graph;
+    graph->V = vertices;
+    graph->E = edges;
+    graph->edge = new Edge[edges];
+    
+    return graph;
+}
+
 struct subset
 {
     int parent;
     int root;
 };
+
+Node *newNode(int city)
+{
+    Node *temp = new Node;
+    temp->city = city;
+    return temp;
+}
+
+void *fillGraph(struct Graph *graph, int vertices, int edges, float *city_coordinates, int matrixSize)
+{
+    int edgeIndex = 0;
+    
+    for (int i = 0; i < vertices; i++)
+    {
+        for (int j = 0; j < vertices; j++)
+        {
+            if (i == j)
+            {
+                continue;
+            }
+
+            if(i > j)
+            [
+                continue;
+            ]
+
+            float distance = calcDistance(city_coordinates[i * 2], city_coordinates[i * 2 + 1], city_coordinates[j * 2], city_coordinates[j * 2 + 1]);
+
+            if (distance > matrixSize)
+            {
+                distance = FLT_MAX;
+            }
+            graph->edge[edgeIndex].source = i;
+            graph->edge[edgeIndex].destination = j;
+            graph->edge[edgeIndex].weight = distance;
+            edgeIndex++;
+        }
+    }
+}
+
+void traverse_tree(Node *allNodes[], int citiesBefore, int maxCities_per_proc, int connected_cities)
+{
+    stack<Node *> nodes;
+    nodes.push_back(allNodes[0]);
+
+    int num = -1;
+
+    while(!nodes.empty())
+    {
+        Node *current = nodes.top();
+        nodes.pop();
+        num = current->city;
+
+        if (find(connected_cities, connected_cities + maxCities_per_proc, num) != connected_cities + maxCities_per_proc)
+        {
+            continue;
+        }
+
+        if (current != NULL)
+        {
+            connected_cities[i] = num;
+
+            for (int i = current->children.size() - 1, i >= 0; i--)
+            {
+                int index = current->children[i]->city;
+                nodes.push(allNodes[index]);
+            }
+        }
+    }
+
+    for (int i = 0; i < maxCities_per_proc; i++)
+    {
+        connected_cities[i] = citiesBefore;
+    }
+}
 
 int find(struct subset subsets[], int q)
 {
@@ -384,9 +485,8 @@ void genCity(float *city_coordinates, int num_cities, int minX, int maxX, int mi
     }
 }
 
-fillGraph(graph, cities, edges, city_coordinates, matrixSize);
-newCity(result, final_connected_cities, final_connected_cities_coordinates, totalCities, citiesBefore);
-intersections(result, totalCities);
+// newCity(result, final_connected_cities, final_connected_cities_coordinates, totalCities, citiesBefore);
+// intersections(result, totalCities);
 
 int main(int argc, char *argv[])
 {
@@ -474,8 +574,8 @@ int main(int argc, char *argv[])
     }
 
     struct dataPoint result[(int)totalCities + 1];
-    newCity(result, final_connected_cities, final_connected_cities_coordinates, totalCities, citiesBefore);
-    intersections(result, totalCities);
+    // newCity(result, final_connected_cities, final_connected_cities_coordinates, totalCities, citiesBefore);
+    // intersections(result, totalCities);
 
     for(int i = 0; i < totalCities; i++)
     {
